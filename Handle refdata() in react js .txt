@@ -1,0 +1,62 @@
+
+     async function refda() {  
+      setNisLoading(true);
+         //  To Show or Hidden Header And Footer
+         document.getElementById('Arabic_Header').hidden = false;
+         document.getElementById('Arabic_Footer').hidden = false;
+   
+             
+      axios.get(variables.API_URL+ '/external_site/qn_news_story_s_show_story_data_Domain' , {
+       
+        headers : {
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "*"      
+      },
+        params: {
+             storyid: storyID2,
+           title: title2,
+           lang: 'en',
+           social: social,
+           Domain:variables.domain,
+           FullDomain:variables.domain_name,
+        }   
+    })
+        .then(function (response) {
+       
+           console.log('story data');
+           console.log(response.data );
+           console.log(response.data.Item1[0].Accepted);
+           console.log(response.data.Item1[0].newsID);
+            
+           var result =    response.data.Item1[0].newsBody.replace("https://menafn.com/",variables.domain_name + "/") .replace("https://menafn.com",variables.domain_name  ) .replace("MENAFN",variables.domain) .replace("MENAFN",variables.domain)  ;  
+         
+           setsnewsTitle(response.data.Item1[0].newsTitle);
+     
+           setnewsBody(result)     ;  
+           setnewsDate(response.data.Item1[0].newsDate.replace('T',' '))   ;
+           setimagePath(response.data.Item1[0].imagePath.replace("https://menafn.com/",variables.domain_name + "/"))   ;
+           
+           setnews_img_caption(response.data.Item1[0].news_img_caption);
+           setproviderLogo(response.data.Item1[0].providerLogo.replace("https://menafn.com/",variables.domain_name + "/"));
+
+            
+           var result2 = response.data.Item1[0].org_link;
+           if(result2===''){
+
+           }
+           setorg_link(response.data.Item1[0].org_link);
+   
+           //settit(response.data.Item2.Meta_OG_Title);
+           setnewsLink(response.data.Item1[0].newsLink );
+          
+ 
+  }).catch((err) => {
+    // This   just  for Rememmber this is Error Div Message 
+     
+    window.location.href = "https://Athletixnet.com/arabic";
+  });
+       
+    }
+  
+  
